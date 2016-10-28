@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Anona.chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="shortcut icon" href="/static/images/favicon.ico" />
+    <!-- Include web components lite -->
+    <script src="/static/bower_components/webcomponentsjs/webcomponents-lite.js" async></script>
+    <!-- Import Internal Elements [Generated]-->
+    <link rel="import" href="/elements/elements.html">
+    <link href="/elements/anona/styles/layout.css" rel="stylesheet" type="text/css" />
+
+  </head>
+  <body>
+    <template is="dom-bind" id="app">
+      <anona-chat route="{{route}}" params="{{params}}"></anona-chat>
+    </template>
+    <script src="/static/js/app.js"></script>
+  </body>
+</html>

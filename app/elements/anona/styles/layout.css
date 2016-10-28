@@ -1,0 +1,82 @@
+anona-chat app-header{
+  transform: translate3d(0px, 0px, 0px);
+  background: #70BE3C;
+  color: white;
+  border-bottom: 1px solid #5C3922;
+}
+
+body{
+  padding: 0px !important;
+  display: inherit;
+  position: absolute;
+  left: -8px;
+  top: -8px;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+.roomContainer paper-spinner{
+  left: 46%;
+  margin-top: 17%;
+  float: left;
+}
+chat-room h4 paper-icon-button{
+  float: left;
+  margin-top: -11px;
+}
+.messageMaterial label{
+  color: #5C3922;
+}
+chat-room h4{
+  text-align: center;
+  border-bottom: 1px solid #bfbfbf;
+  height: 58px;
+  margin-bottom: 0px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  margin-top: 0px;
+  padding-top: 21px;
+}
+.roomMemberCount{
+  position: absolute;
+  right: 15px;
+  margin-top: -41px;
+  color: #5F3C26;
+  font-size: 1.5em;
+}
+.roomNewMessage{
+  position: absolute;
+  bottom: 2px;
+  width: 100%;
+  background: white;
+}
+.roomContainer .messageMaterial{
+  padding: 15px;
+  padding-left: 8px;
+  margin-bottom: 0px;
+  border-bottom: 2px solid #70BE3C;
+  background: white;
+}
+.roomContainer .messageMaterial  font{
+  float: right;
+}
+.roomContainer{
+  height: 100%;
+  background: rgba(198, 241, 169, 0.29);
+}
+chat-room .roomNewMessage paper-input-container{
+  width: 85%;
+float: left;
+padding-left: 10px;
+padding-top: 0px;
+}
+chat-room .roomNewMessage paper-icon-button{
+  color: #70BE3C;
+margin-top: 9px;
+margin-left: 7px;
+position: absolute;
+}
+chat-room .roomNewMessage paper-material{
+  height: 70px;
+border-top: 1px solid #bfbfbf;
+}

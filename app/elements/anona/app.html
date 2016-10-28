@@ -1,0 +1,69 @@
+<!--- Element Handles Application Shell --->
+<dom-module id="anona-chat">
+  <template>
+    <!-- Authenticate User -->
+    <user-profile user="{{user}}" authenticated="{{authenticated}}"></user-profile>
+
+    <!--- Header --->
+
+      <app-header condenses reveals>
+        <app-toolbar>
+          <paper-icon-button icon="menu" on-tap="toggleLeft"></paper-icon-button>
+          <div title>Anona.chat</div>
+        </app-toolbar>
+        <div id="dropShadow" class="style-scope paper-header-panel has-shadow"></div>
+      </app-header>
+
+      <app-drawer id="leftDrawer" position="left">
+          Menu Draw
+        <paper-icon-button icon="menu" on-tap="toggleLeft"></paper-icon-button>
+      </app-drawer>
+
+
+      <app-drawer id="rightDrawer" position="right">
+        GPS Selector Draw
+        <paper-icon-button icon="menu" on-tap="toggleRight"></paper-icon-button>
+      </app-drawer>
+
+      <!-- If Authenticated -->
+      <template is="dom-if" if="{{authenticated}}">
+        <anona-launcher user="[[user]]" params="[[params]]" route="{{route}}"></anona-launcher>
+      </template>
+      <!-- If Not Authenticated -->
+      <template is="dom-if" if="{{!authenticated}}">
+        <paper-spinner active></paper-spinner>
+      </template>
+
+  </template>
+  <script>
+    Polymer({
+      is: "anona-chat",
+      properties: {
+        user: {
+          type: Object,
+          notify: true
+        },
+        authenticated: {
+          type: String,
+          notify: true
+        },
+        route: {
+          type: String,
+          notify: true
+        },
+        params: {
+          type: Object,
+          notify: true
+        }
+      },
+      toggleLeft: function(e){
+          this.$.leftDrawer.toggle();
+      },
+      toggleRight: function(e){
+          this.$.rightDrawer.toggle();
+      },
+      ready: function(e){
+      }
+    })
+  </script>
+</dom-module>

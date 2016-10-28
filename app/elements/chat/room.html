@@ -1,0 +1,88 @@
+<dom-module id="chat-room">
+  <template>
+    <iron-ajax auto url="/chat/messages" handle-as="json" on-response="messageResponse"></iron-ajax>
+    <iron-ajax id="submitMessageRequest" method="post" url="/chat/send" handle-as="json" on-response="submittedResponse"></iron-ajax>
+    <h4>{{parseName(name)}}</h4>
+    <label class="roomMemberCount">[[memberCount]]</label>
+    <section class="roomContainer">
+      <template is="dom-if" if="{{loading}}">
+        <paper-spinner active></paper-spinner>
+      </template>
+      <template is="dom-if" if='{{!loading}}'>
+        <template is="dom-if" if="{{!messages.length}}">
+          <span>No Messages</span>
+        </template>
+        <template is="dom-repeat" items="{{messages}}" as="message">
+          <paper-material class="messageMaterial" elevation="0">
+            <label>{{parseUser(message.user_id)}}:</label>
+            <span>[[message.content.body]]</span>
+            <font>{{parseTimeStamp(message.age)}}</font>
+          </paper-material>
+        </template>
+      </section>
+      </template>
+      <section class="roomNewMessage">
+        <paper-material elevation="1">
+          <paper-input-container id="">
+            <label>New Message</label>
+            <input is="iron-input" id="newMessage" name="newMessage" value="{{newMessage}}">
+          </paper-input-container>
+          <paper-icon-button icon="send" on-tap="sendMessage"></paper-icon-button>
+        </paper-material>
+      </section>
+  </template>
+  <script>
+    Polymer({
+      is: "chat-room",
+      properties: {
+        name: {
+          type: String,
+          notify: true
+        },
+        newMessage: {
+          type: String,
+          notify: true
+        },
+        memberCount: {
+          type: Number,
+          notify: true,
+          value: 0
+        },
+        loading: {
+          type: Boolean,
+          notify: true,
+          value: true
+        },
+        messages: {
+          type: Array,
+          notify: true
+        }
+      },
+      parseUser: function(name){
+        return name.substring(1, name.length - 11);
+      },
+      parseName: function(name){
+        return name.substring(0, name.length - 11);
+      },
+      parseTimeStamp: function(seconds){
+        var now = Date.now();
+        now -= seconds;
+        var messageDate = new Date(now);
+        return messageDate.toLocaleTimeString();
+      },
+      messageResponse: function(e){
+        this.set('loading', false);
+        this.set('messages', e.detail.response.messages);
+        this.set('name', e.detail.response.room.name);
+      },
+      sendMessage: function(e){
+        var message = {
+          type: 'text',
+          value: this.$.newMessage.value
+        }
+        this.$.submitMessageRequest.body = JSON.stringify(message);
+        this.$.submitMessageRequest.generateRequest();
+      }
+    })
+  </script>
+</dom-module>

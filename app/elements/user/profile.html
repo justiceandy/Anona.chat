@@ -1,0 +1,93 @@
+<dom-module id="user-profile">
+  <template>
+    <iron-ajax id="authenticateGuest" url="/chat/authenticate/guest" handle-as="json" on-response="authResponse"></iron-ajax>
+    <iron-ajax id="userProfile" url="/profile" handle-as="json" on-response="profileResponse"></iron-ajax>
+  </template>
+  <script>
+    Polymer({
+      is: "user-profile",
+      properties: {
+        user: {
+          type: Object,
+          notify: true,
+          observer: "userChanged"
+        },
+        token: {
+          type: String,
+          notify: true,
+          observer: "userTokenChanged"
+        },
+        room: {
+          type: Object,
+          notiy: true,
+          observer: "roomChanged"
+        },
+        authenticated: {
+          type: Boolean,
+          value: false,
+          notify: true
+        }
+      },
+      userChanged: function(e){
+        if(!e.cookie){
+          document.cookie = "access="+e.token+"; expires=Thu, 01 Jan 2070 00:00:00 UTC";
+          document.cookie = "user="+e.id+"; expires=Thu, 01 Jan 2070 00:00:00 UTC";
+          document.cookie = "room="+e.room+"; expires=Thu, 01 Jan 2070 00:00:00 UTC";
+        }
+        // If we dont have disply  name
+        if(typeof(e.name) === 'undefined'){
+          this.$.userProfile.generateRequest();
+        }
+        this.set('authenticated', true);
+        console.log(e);
+      },
+      roomChanged: function(e){
+      },
+      userTokenChanged: function(e){
+      },
+      authResponse: function(e, detail){
+        var user = {
+          cookie: false,
+          name: e.detail.response.displayName,
+          token: e.detail.response.token,
+          room: e.detail.response.room.id,
+          id: e.detail.response.userID
+        }
+        this.set('user', user);
+        this.set('room', e.detail.response.room);
+      },
+      profileResponse: function(e){
+        console.log(e.detail.response);
+      },
+      getCookie: function(cname) {
+          var name = cname + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0; i<ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0)==' ') c = c.substring(1);
+              if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+          }
+          return "";
+      },
+      ready: function(e){
+        var userToken = this.getCookie('access');
+        var userID = this.getCookie('user');
+        var room = this.getCookie('room');
+        if(userToken.length && userID.length){
+          var user = {
+            cookie: true,
+            token: userToken,
+            id: userID,
+            room: room
+          }
+          this.set('user', user);
+          this.set('token', userToken);
+        }
+        else{
+          this.$.authenticateGuest.generateRequest();
+        }
+
+      }
+    })
+  </script>
+</dom-module>
